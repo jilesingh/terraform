@@ -32,5 +32,5 @@ gcloud services enable iam.googleapis.com
 gcloud services enable cloudresourcemanager.googleapis.com
 
 ## Add gitignire before any terrafrom deployment 
-
+    [gitignore](./deploying_gcp_resources/gcp_commands.md)
 
