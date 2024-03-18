@@ -1,4 +1,5 @@
 module "qa" {
+# update the source file path ti "../aws_deployment/modules/blog"before you plan a run
     source = "../modules/blog"
 
     environment {
