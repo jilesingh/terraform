@@ -1,8 +1,8 @@
 ## PROVIDER
 provider "google"{
     project = "advancedterraform-20240318" 
-    region  = "us-central1"
-    zone    = "us-central1-a"
+    region  = "europe-west3"
+    zone    = "europe-west3-a"
 }
 
 ### NETWORK
@@ -15,7 +15,7 @@ resource "google_compute_subnetwork" "subnet-1" {
   name                            = "subnet1"
   ip_cidr_range                   = "10.127.0.0/20"
   network                         = data.google_compute_network.default.self_link
-  region                          = "us-central1"
+  region                          = "europe-west3"
   private_ip_google_access        = true
 }
 
@@ -39,7 +39,7 @@ resource "google_compute_firewall" "default" {
 ## NGINX PROXY
 resource "google_compute_instance" "nginx_instance" {
   name         = "nginx-proxy"
-  machine_type = "f1-micro"
+  machine_type = "e2-standard-2"
   tags = ["web"]
   
   boot_disk {
@@ -60,7 +60,7 @@ resource "google_compute_instance" "nginx_instance" {
 ## WEB1
 resource "google_compute_instance" "web1" {
   name         = "web1"
-  machine_type = "f1-micro"
+  machine_type = "e2-standard-2"
   
   boot_disk {
     initialize_params {
@@ -77,7 +77,7 @@ resource "google_compute_instance" "web1" {
 ## WEB2
 resource "google_compute_instance" "web2" {
   name         = "web2"
-  machine_type = "f1-micro"
+  machine_type = "e2-standard-2"
   
   boot_disk {
     initialize_params {
@@ -93,7 +93,7 @@ resource "google_compute_instance" "web2" {
 ## WEB3
 resource "google_compute_instance" "web3" {
   name         = "web3"
-  machine_type = "f1-micro"
+  machine_type = "e2-standard-2"
   
   boot_disk {
     initialize_params {
@@ -110,7 +110,7 @@ resource "google_compute_instance" "web3" {
 ## DB
 resource "google_compute_instance" "mysqldb" {
   name         = "mysqldb"
-  machine_type = "f1-micro"
+  machine_type = "e2-standard-2"
   
   boot_disk {
     initialize_params {
