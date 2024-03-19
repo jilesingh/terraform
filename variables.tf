@@ -68,23 +68,31 @@ variable "environment_machine_type" {
 }
 
 variable "environment_instance_settings" {
-  type = map(object({machine_type=string, tags=list(string)}))
+  type = map(object({machine_type=string, labels=map(string)}))
   default = {
     "DEV" = {
       machine_type = "e2-standard-2"
-      tags = ["dev"]
+      labels = {
+        environment = "dev"
+      }
     },
    "QA" = {
       machine_type = "e2-standard-2"
-      tags = ["qa"]
+      labels = {
+        environment = "qa"
+      }
     },
     "STAGE" = {
       machine_type = "e2-standard-2"
-      tags = ["stage"]
+      labels = {
+        environment = "stage"
+      }
     },
     "PROD" = {
       machine_type = "e2-standard-2"
-      tags = ["prod"]
+      labels = {
+        environment = "prod"
+      }
     }
   }
 }

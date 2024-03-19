@@ -1,22 +1,22 @@
-## PROVIDER
-provider "google"{
-    project = "advancedterraform-20240318" 
-    region  = "europe-west3"
-    zone    = "europe-west3-a"
+### PROVIDER
+provider "google" {
+  project = var.project-id
+  region  = var.region
+  zone    = var.zone
 }
 
 ### NETWORK
 data "google_compute_network" "default" {
-    name                   = "default"
+  name                    = "default"
 }
 
 ## SUBNET
 resource "google_compute_subnetwork" "subnet-1" {
-  name                            = "subnet1"
-  ip_cidr_range                   = "10.127.0.0/20"
-  network                         = data.google_compute_network.default.self_link
-  region                          = "europe-west3"
-  private_ip_google_access        = true
+  name                     = var.subnet-name
+  ip_cidr_range            = var.subnet-cidr
+  network                  = data.google_compute_network.default.self_link
+  region                   = var.region
+  private_ip_google_access = var.private_google_access
 }
 
 resource "google_compute_firewall" "default" {
@@ -29,22 +29,22 @@ resource "google_compute_firewall" "default" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "8080", "1000-2000", "22"]
+    ports    = var.firewall-ports
   }
 
-  source_tags = ["web"]
+  source_tags = var.compute-source-tags
 }
 
 ### COMPUTE
 ## NGINX PROXY
 resource "google_compute_instance" "nginx_instance" {
   name         = "nginx-proxy"
-  machine_type = environment_machine_type[var.target_environment]
+  machine_type = var.environment_machine_type[var.target_environment]
   labels = {
-    environment = environment_map[var.target_environment]
+    environment = var.environment_map[var.target_environment]
   }
   tags = var.compute-source-tags
-  
+ 
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
@@ -55,7 +55,7 @@ resource "google_compute_instance" "nginx_instance" {
     network = data.google_compute_network.default.self_link
     subnetwork = google_compute_subnetwork.subnet-1.self_link
     access_config {
-      
+  
     }
   }
 }
@@ -63,7 +63,10 @@ resource "google_compute_instance" "nginx_instance" {
 ## WEB1
 resource "google_compute_instance" "web1" {
   name         = "web1"
-  machine_type = "e2-standard-2"
+  machine_type = var.environment_machine_type[var.target_environment]
+  labels = {
+    environment = var.environment_map[var.target_environment]
+  }
   
   boot_disk {
     initialize_params {
@@ -80,7 +83,10 @@ resource "google_compute_instance" "web1" {
 ## WEB2
 resource "google_compute_instance" "web2" {
   name         = "web2"
-  machine_type = "e2-standard-2"
+  machine_type = var.environment_machine_type[var.target_environment]
+  labels = {
+    environment = var.environment_map[var.target_environment]
+  }
   
   boot_disk {
     initialize_params {
@@ -96,7 +102,10 @@ resource "google_compute_instance" "web2" {
 ## WEB3
 resource "google_compute_instance" "web3" {
   name         = "web3"
-  machine_type = "e2-standard-2"
+  machine_type = var.environment_machine_type[var.target_environment]
+  labels = {
+    environment = var.environment_map[var.target_environment]
+  }
   
   boot_disk {
     initialize_params {
@@ -113,7 +122,10 @@ resource "google_compute_instance" "web3" {
 ## DB
 resource "google_compute_instance" "mysqldb" {
   name         = "mysqldb"
-  machine_type = "e2-standard-2"
+  machine_type = var.environment_machine_type[var.target_environment]
+  labels = {
+    environment = var.environment_map[var.target_environment]
+  }
   
   boot_disk {
     initialize_params {
