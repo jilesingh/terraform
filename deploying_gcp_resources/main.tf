@@ -39,8 +39,11 @@ resource "google_compute_firewall" "default" {
 ## NGINX PROXY
 resource "google_compute_instance" "nginx_instance" {
   name         = "nginx-proxy"
-  machine_type = "e2-standard-2"
-  tags = ["web"]
+  machine_type = environment_machine_type[var.target_environment]
+  labels = {
+    environment = environment_map[var.target_environment]
+  }
+  tags = var.compute-source-tags
   
   boot_disk {
     initialize_params {
