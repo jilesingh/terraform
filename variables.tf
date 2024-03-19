@@ -5,12 +5,12 @@ variable "project-id" {
 
 variable "region" {
   type = string
-  default = "europe-west3"
+  default = "us-central1"
 }
 
 variable "zone" {
   type = string
-  default = "europe-west3-a"
+  default = "us-central1-a"
 }
 
 variable "subnet-name" {
@@ -60,10 +60,10 @@ variable "environment_map" {
 variable "environment_machine_type" {
   type = map(string)
   default = {
-    "DEV" = "e2-standard-2",
-    "QA" = "e2-standard-2",
-    "STAGE" = "e2-standard-2",
-    "PROD" = "e2-standard-2"
+    "DEV" = "f1-micro",
+    "QA" = "e2-micro",
+    "STAGE" = "e2-micro",
+    "PROD" = "e2-medium"
   }
 }
 
@@ -71,25 +71,25 @@ variable "environment_instance_settings" {
   type = map(object({machine_type=string, labels=map(string)}))
   default = {
     "DEV" = {
-      machine_type = "e2-standard-2"
+      machine_type = "f1-micro"
       labels = {
         environment = "dev"
       }
     },
    "QA" = {
-      machine_type = "e2-standard-2"
+      machine_type = "e2-micro"
       labels = {
         environment = "qa"
       }
     },
     "STAGE" = {
-      machine_type = "e2-standard-2"
+      machine_type = "e2-micro"
       labels = {
         environment = "stage"
       }
     },
     "PROD" = {
-      machine_type = "e2-standard-2"
+      machine_type = "e2-medium"
       labels = {
         environment = "prod"
       }
